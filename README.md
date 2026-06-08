@@ -119,6 +119,12 @@ go run . -config config.json
 .\go-server.exe status
 ```
 
+查看帮助：
+
+```powershell
+.\go-server.exe help
+```
+
 指定配置文件启动：
 
 ```powershell

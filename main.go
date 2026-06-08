@@ -45,6 +45,7 @@ type serverMeta struct {
 }
 
 func main() {
+	flag.Usage = printHelp
 	configPath := flag.String("config", "config.json", "configuration file path")
 	pidPath := flag.String("pid", "go-server.pid", "PID file path")
 	child := flag.Bool("child", false, "run as background server child")
@@ -56,6 +57,8 @@ func main() {
 	}
 
 	switch command {
+	case "help":
+		printHelp()
 	case "status":
 		if err := printStatus(*pidPath); err != nil {
 			log.Fatal(err)
@@ -98,8 +101,42 @@ func main() {
 			log.Fatal(err)
 		}
 	default:
-		log.Fatalf("unknown command: %s", command)
+		log.Fatalf("unknown command: %s\nRun go-server.exe help for usage.", command)
 	}
+}
+
+func printHelp() {
+	fmt.Fprintf(flag.CommandLine.Output(), `Usage:
+  go-server.exe [options]
+  go-server.exe [options] start
+  go-server.exe [options] stop
+  go-server.exe [options] restart
+  go-server.exe [options] status
+  go-server.exe help
+
+Commands:
+  start    Start go-server.exe in the background and open the browser.
+  stop     Stop the background server started by this executable.
+  restart  Stop and start the background server.
+  status   Show whether the background server is running.
+  help     Show this help text.
+
+Options:
+`)
+	flag.CommandLine.VisitAll(func(f *flag.Flag) {
+		if f.Name == "child" {
+			return
+		}
+		fmt.Fprintf(flag.CommandLine.Output(), "  -%s", f.Name)
+		if f.DefValue != "" && f.DefValue != "false" {
+			fmt.Fprintf(flag.CommandLine.Output(), " string")
+		}
+		fmt.Fprintf(flag.CommandLine.Output(), "\n    \t%s", f.Usage)
+		if f.DefValue != "" && f.DefValue != "false" {
+			fmt.Fprintf(flag.CommandLine.Output(), " (default %q)", f.DefValue)
+		}
+		fmt.Fprintln(flag.CommandLine.Output())
+	})
 }
 
 func runServer(cfg Config, pidPath string, writePID bool) error {
