@@ -127,7 +127,7 @@ go run . -config config.json
 
 后台运行时会生成 `go-server.pid`，用于记录进程号、端口和本地控制令牌。服务输出会写入 `server.out.log`，错误输出会写入 `server.err.log`。
 
-启动成功后，浏览器访问：
+服务启动成功后会自动使用默认浏览器打开服务首页。也可以手动访问：
 
 ```text
 http://localhost:8080/

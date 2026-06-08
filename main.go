@@ -11,6 +11,7 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/exec"
@@ -148,7 +149,18 @@ func runServer(cfg Config, pidPath string, writePID bool) error {
 		log.Printf("serving %s from %s at %s", project.Name, project.Path, project.URL)
 	}
 
-	if err := http.ListenAndServe(addr, mux); err != nil {
+	server := &http.Server{
+		Addr:    addr,
+		Handler: mux,
+	}
+	ln, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+	if !writePID {
+		openBrowser(cfg.Port)
+	}
+	if err := server.Serve(ln); err != nil {
 		return err
 	}
 	return nil
@@ -267,6 +279,7 @@ func startServer(cfg Config, configPath string, pidPath string) error {
 		meta, err := readMeta(pidPath)
 		if err == nil && meta.PID > 0 && meta.Port == cfg.Port && isRunning(meta) {
 			fmt.Printf("go-server.exe started. pid=%d port=%d\n", meta.PID, meta.Port)
+			openBrowser(meta.Port)
 			return nil
 		}
 		time.Sleep(200 * time.Millisecond)
@@ -380,6 +393,18 @@ func newToken() (string, error) {
 		return "", err
 	}
 	return hex.EncodeToString(data), nil
+}
+
+func openBrowser(port int) {
+	url := fmt.Sprintf("http://localhost:%d/", port)
+	cmd := exec.Command("rundll32", "url.dll,FileProtocolHandler", url)
+	if err := cmd.Start(); err != nil {
+		log.Printf("open browser failed: %v", err)
+		return
+	}
+	if err := cmd.Process.Release(); err != nil {
+		log.Printf("release browser process failed: %v", err)
+	}
 }
 
 func buildMux(cfg Config) (*http.ServeMux, []mountedProject, error) {
