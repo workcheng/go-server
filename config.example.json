@@ -1,0 +1,13 @@
+{
+  "port": 8080,
+  "projects": [
+    {
+      "name": "project-a",
+      "path": "C:/path/to/project-a"
+    },
+    {
+      "name": "project-b",
+      "path": "./project-b"
+    }
+  ]
+}

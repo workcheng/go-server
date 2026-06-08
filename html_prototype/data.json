@@ -1,0 +1,379 @@
+{
+  "mainNav": [
+    { "id": "home", "label": "首页", "summary": "返回制造交付运营总览。" },
+    { "id": "manufacture", "label": "制造过程", "icon": "./assets/ui/sketch/001.png", "summary": "聚焦厂房、产线、工位和生产执行状态。" },
+    { "id": "delivery", "label": "交付过程", "icon": "./assets/ui/sketch/017.png", "summary": "查看交付过程质量和放行节点。" },
+    { "id": "operation", "label": "运维过程", "icon": "./assets/ui/sketch/019.png", "summary": "查看设备与资源保障运维态势。" },
+    { "id": "tools", "label": "系统工具", "summary": "打开规则、接口和平台工具。" },
+    { "id": "manage", "label": "系统管理", "summary": "进入配置、权限与系统管理。" }
+  ],
+  "processTabs": [
+    { "id": "measure", "label": "测量和质量检测", "icon": "./assets/ui/sketch/005.png", "summary": "展示调姿测量任务与质量状态。" },
+    { "id": "simulation", "label": "装配工艺仿真", "icon": "./assets/ui/sketch/011.png", "summary": "联动装配工艺仿真结果。" },
+    { "id": "monitor", "label": "生产监控", "icon": "./assets/ui/sketch/012.png", "summary": "查看厂房、产线、工位实时监控状态。" },
+    { "id": "deduce", "label": "生产推演", "icon": "./assets/ui/sketch/013.png", "summary": "进行节拍和资源推演。" },
+    { "id": "history", "label": "历史追溯", "icon": "./assets/ui/sketch/014.png", "summary": "追溯架次、工位和质量记录。" }
+  ],
+  "bottomDock": [
+    { "id": "auto", "label": "自动化测量", "icon": "./assets/ui/sketch/005.png", "summary": "自动采集测点和回传 AO 状态。" },
+    { "id": "files", "label": "文件集成中心", "icon": "./assets/ui/sketch/004.png", "summary": "查看模型、工艺文件、测量文件归集状态。" },
+    { "id": "flow", "label": "任务流管理", "icon": "./assets/ui/sketch/007.png", "summary": "管理任务下发、执行和闭环。" },
+    { "id": "visual", "label": "三维可视化", "icon": "./assets/ui/sketch/008.png", "summary": "切换三维态势联动视角。" }
+  ],
+  "monitorCenters": [
+    { "id": "production", "label": "生产管理中心", "subtitle": "生产 / 工艺 / 质量" },
+    { "id": "region", "label": "区域运营中心", "subtitle": "车间 / 区域主管" },
+    { "id": "facility", "label": "厂务动力与环境", "subtitle": "设备工程师" },
+    { "id": "safety", "label": "安全监控中心", "subtitle": "安保人员" }
+  ],
+  "monitorSubtabs": [
+    { "id": "overview", "label": "站位状态总览" },
+    { "id": "environment", "label": "工艺环境监控" },
+    { "id": "release", "label": "许可放行记录" }
+  ],
+  "statusLegend": [
+    { "label": "正常生产", "tone": "green" },
+    { "label": "可以开工", "tone": "orange" },
+    { "label": "不满足条件", "tone": "red" },
+    { "label": "未启用", "tone": "gray" }
+  ],
+  "plant": {
+    "id": "assembly-hall-01",
+    "name": "总装总厂房",
+    "summary": "默认进入厂房级总览，通过产线和站位下钻查看真实执行状态。",
+    "overviewAircraft": [
+      { "aircraftNo": "B-0012", "lineId": "C02", "stationId": "S4", "progress": 68, "customer": "东航", "rolloutDate": "2026-06-02", "phase": "部件对接" },
+      { "aircraftNo": "B-0014", "lineId": "C02", "stationId": "S5", "progress": 73, "customer": "国航", "rolloutDate": "2026-06-05", "phase": "胶接固化" },
+      { "aircraftNo": "B-0043", "lineId": "C06", "stationId": "S4", "progress": 72, "customer": "南航", "rolloutDate": "2026-06-06", "phase": "系统联调" }
+    ],
+    "metrics": {
+      "aoTotal": 642,
+      "aoDone": 446,
+      "aoRunning": 93,
+      "aoPending": 103
+    },
+    "resources": [
+      { "label": "压缩空气", "value": 73, "unit": "%" },
+      { "label": "液压源", "value": 45, "unit": "%" },
+      { "label": "行车占用", "value": 60, "unit": "%" },
+      { "label": "环境稳定度", "value": 92, "unit": "%" }
+    ],
+    "alerts": [
+      { "level": "严重", "source": "液压系统", "title": "C02 · S4 液压源压力不足", "time": "09:15:23", "status": "待确认" },
+      { "level": "警告", "source": "空压系统", "title": "C06 · A2 空压机露点偏高", "time": "08:45:10", "status": "已确认" },
+      { "level": "信息", "source": "起重系统", "title": "K4 行车例保完成", "time": "08:00:00", "status": "已确认" }
+    ]
+  },
+  "lines": [
+    {
+      "id": "C02",
+      "name": "C02 总装产线",
+      "lineNo": "LINE-02",
+      "accent": "#1dd6ff",
+      "position": { "x": -92, "z": 0 },
+      "size": { "w": 192, "d": 56 },
+      "summary": "当前主控中机身与后机身对接节拍，S4 为重点关注工位。",
+      "metrics": { "aoTotal": 320, "aoDone": 216, "aoRunning": 48, "aoPending": 56 },
+      "resources": [
+        { "label": "压缩空气占用", "value": 73, "unit": "%" },
+        { "label": "液压源占用", "value": 45, "unit": "%" },
+        { "label": "行车占用率", "value": 60, "unit": "%" }
+      ],
+      "responseQueue": [
+        { "time": "14:00", "title": "大部件进场", "station": "S2", "duration": "2h", "tone": "green" },
+        { "time": "16:30", "title": "系统测试", "station": "S5", "duration": "3h", "tone": "blue" },
+        { "time": "18:00", "title": "胶接固化", "station": "S4", "duration": "4h", "tone": "warning" },
+        { "time": "20:00", "title": "尾翼对接", "station": "S1", "duration": "1.5h", "tone": "red" }
+      ],
+      "permits": [
+        { "item": "液压源联试许可", "owner": "赵斌", "time": "09:20", "status": "待批准" },
+        { "item": "工位 S4 点检放行", "owner": "孙航", "time": "09:05", "status": "已放行" },
+        { "item": "起重行车使用许可", "owner": "王迪", "time": "08:48", "status": "已放行" }
+      ],
+      "environment": [
+        { "group": "环境品质", "items": [
+          { "name": "分层空调", "value": "23.2℃", "tone": "green" },
+          { "name": "S4 微环境", "value": "0.15m/s", "tone": "green" },
+          { "name": "地坪加热", "value": "22.8℃", "tone": "green" }
+        ]},
+        { "group": "资源供给", "items": [
+          { "name": "A2 空压机组", "value": "0.72MPa", "tone": "green" },
+          { "name": "液压源站", "value": "0.48MPa", "tone": "warning" },
+          { "name": "夹具工装", "value": "7 / 8", "tone": "green" }
+        ]},
+        { "group": "起重协同", "items": [
+          { "name": "K3 行车", "value": "50t", "tone": "green" },
+          { "name": "K4 行车", "value": "20t", "tone": "green" },
+          { "name": "路径清场", "value": "完成", "tone": "green" }
+        ]},
+        { "group": "安全屏障", "items": [
+          { "name": "光栅监测", "value": "正常", "tone": "green" },
+          { "name": "地磁检测", "value": "正常", "tone": "green" },
+          { "name": "视频监控", "value": "盲区", "tone": "warning" }
+        ]}
+      ],
+      "workcells": [
+        { "id": "S1", "title": "前机身装配", "progress": 65, "status": "正常生产", "note": "已满足开工条件", "stationId": "S1" },
+        { "id": "S2", "title": "翼身待接", "progress": 22, "status": "可以开工", "note": "待 MES 确认", "stationId": "S2" },
+        { "id": "S4", "title": "中机身对接", "progress": 68, "status": "不满足条件", "note": "液压源压力不足", "stationId": "S4" },
+        { "id": "S5", "title": "后机身固化", "progress": 73, "status": "正常生产", "note": "温湿度稳定", "stationId": "S5" }
+      ],
+      "stations": [
+        {
+          "id": "S1",
+          "name": "S1 前机身装配",
+          "position": { "x": -72, "z": -16 },
+          "status": "正常生产",
+          "batch": "10008",
+          "aircraftNo": "B-0008",
+          "customer": "海航",
+          "section": "前机身",
+          "workstation": "201",
+          "completion": 65,
+          "aoTotal": 96,
+          "aoDone": 58,
+          "firOpen": 3,
+          "dasOpen": 1,
+          "people": "8 / 9",
+          "materials": "齐套",
+          "tools": "6 / 7",
+          "environmentValue": "22.8℃",
+          "deliveryDate": "2026-05-30",
+          "planFinish": "2026-05-29 16:30",
+          "videoStatus": "在线",
+          "phase": "前机身装配",
+          "modelState": "nose"
+        },
+        {
+          "id": "S2",
+          "name": "S2 翼身待接",
+          "position": { "x": -24, "z": -16 },
+          "status": "可以开工",
+          "batch": "10010",
+          "aircraftNo": "B-0010",
+          "customer": "国航",
+          "section": "翼身段",
+          "workstation": "204",
+          "completion": 22,
+          "aoTotal": 104,
+          "aoDone": 35,
+          "firOpen": 4,
+          "dasOpen": 1,
+          "people": "9 / 9",
+          "materials": "齐套",
+          "tools": "7 / 7",
+          "environmentValue": "23.0℃",
+          "deliveryDate": "2026-05-31",
+          "planFinish": "2026-05-29 18:00",
+          "videoStatus": "在线",
+          "phase": "翼身待接",
+          "modelState": "fuselage"
+        },
+        {
+          "id": "S4",
+          "name": "S4 中机身对接",
+          "position": { "x": 28, "z": -16 },
+          "status": "不满足条件",
+          "batch": "10013",
+          "aircraftNo": "B-0012",
+          "customer": "东航",
+          "section": "中机身",
+          "workstation": "209",
+          "completion": 68,
+          "aoTotal": 106,
+          "aoDone": 72,
+          "firOpen": 5,
+          "dasOpen": 2,
+          "people": "9 / 10",
+          "materials": "待补 2 项",
+          "tools": "7 / 8",
+          "environmentValue": "23.2℃",
+          "deliveryDate": "2026-06-02",
+          "planFinish": "2026-05-29 22:00",
+          "videoStatus": "离线",
+          "phase": "部件对接",
+          "modelState": "mid"
+        },
+        {
+          "id": "S5",
+          "name": "S5 后机身固化",
+          "position": { "x": 82, "z": -16 },
+          "status": "正常生产",
+          "batch": "10014",
+          "aircraftNo": "B-0014",
+          "customer": "国航",
+          "section": "后机身",
+          "workstation": "211",
+          "completion": 73,
+          "aoTotal": 118,
+          "aoDone": 81,
+          "firOpen": 2,
+          "dasOpen": 1,
+          "people": "8 / 10",
+          "materials": "待胶接件",
+          "tools": "6 / 8",
+          "environmentValue": "23.5℃",
+          "deliveryDate": "2026-06-05",
+          "planFinish": "2026-05-30 09:30",
+          "videoStatus": "在线",
+          "phase": "胶接固化",
+          "modelState": "tail"
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "name": "C06 总装产线",
+      "lineNo": "LINE-06",
+      "accent": "#4f98ff",
+      "position": { "x": 92, "z": 0 },
+      "size": { "w": 192, "d": 56 },
+      "summary": "当前主控系统联调与尾段待接，S4 正在进行系统测试准备。",
+      "metrics": { "aoTotal": 322, "aoDone": 230, "aoRunning": 45, "aoPending": 47 },
+      "resources": [
+        { "label": "压缩空气占用", "value": 68, "unit": "%" },
+        { "label": "液压源占用", "value": 59, "unit": "%" },
+        { "label": "行车占用率", "value": 48, "unit": "%" }
+      ],
+      "responseQueue": [
+        { "time": "13:30", "title": "系统测试准备", "station": "S4", "duration": "1.5h", "tone": "blue" },
+        { "time": "15:20", "title": "尾段待接", "station": "S5", "duration": "2h", "tone": "warning" },
+        { "time": "18:10", "title": "电缆束复核", "station": "S3", "duration": "1h", "tone": "green" }
+      ],
+      "permits": [
+        { "item": "系统联调许可", "owner": "谢宁", "time": "09:10", "status": "待批准" },
+        { "item": "工位 S4 点检放行", "owner": "刘逸", "time": "08:52", "status": "已放行" }
+      ],
+      "environment": [
+        { "group": "环境品质", "items": [
+          { "name": "分层空调", "value": "23.0℃", "tone": "green" },
+          { "name": "S4 微环境", "value": "0.18m/s", "tone": "green" },
+          { "name": "地坪加热", "value": "22.6℃", "tone": "green" }
+        ]},
+        { "group": "资源供给", "items": [
+          { "name": "A3 空压机组", "value": "0.68MPa", "tone": "green" },
+          { "name": "液压源站", "value": "0.59MPa", "tone": "green" },
+          { "name": "夹具工装", "value": "6 / 8", "tone": "warning" }
+        ]},
+        { "group": "起重协同", "items": [
+          { "name": "K5 行车", "value": "32t", "tone": "green" },
+          { "name": "K6 行车", "value": "20t", "tone": "green" },
+          { "name": "路径清场", "value": "完成", "tone": "green" }
+        ]},
+        { "group": "安全屏障", "items": [
+          { "name": "光栅监测", "value": "正常", "tone": "green" },
+          { "name": "地磁检测", "value": "正常", "tone": "green" },
+          { "name": "视频监控", "value": "在线", "tone": "green" }
+        ]}
+      ],
+      "workcells": [
+        { "id": "S3", "title": "前机身待接", "progress": 68, "status": "正常生产", "note": "人员齐套", "stationId": "S3" },
+        { "id": "S4", "title": "系统测试准备", "progress": 72, "status": "可以开工", "note": "待资源补齐", "stationId": "S4" },
+        { "id": "S5", "title": "尾段待接", "progress": 73, "status": "不满足条件", "note": "尾段未到位", "stationId": "S5" },
+        { "id": "S7", "title": "系统联调", "progress": 86, "status": "正常生产", "note": "联调已启动", "stationId": "S7" }
+      ],
+      "stations": [
+        {
+          "id": "S3",
+          "name": "S3 前机身待接",
+          "position": { "x": 44, "z": 16 },
+          "status": "正常生产",
+          "batch": "20021",
+          "aircraftNo": "B-0042",
+          "customer": "深航",
+          "section": "前机身",
+          "workstation": "301",
+          "completion": 68,
+          "aoTotal": 106,
+          "aoDone": 72,
+          "firOpen": 2,
+          "dasOpen": 1,
+          "people": "9 / 9",
+          "materials": "齐套",
+          "tools": "7 / 8",
+          "environmentValue": "22.9℃",
+          "deliveryDate": "2026-06-01",
+          "planFinish": "2026-05-30 16:00",
+          "videoStatus": "在线",
+          "phase": "前机身待接",
+          "modelState": "nose"
+        },
+        {
+          "id": "S4",
+          "name": "S4 系统测试准备",
+          "position": { "x": 92, "z": 16 },
+          "status": "可以开工",
+          "batch": "20022",
+          "aircraftNo": "B-0043",
+          "customer": "南航",
+          "section": "系统段",
+          "workstation": "303",
+          "completion": 72,
+          "aoTotal": 112,
+          "aoDone": 76,
+          "firOpen": 1,
+          "dasOpen": 1,
+          "people": "8 / 9",
+          "materials": "待线束 1 项",
+          "tools": "6 / 7",
+          "environmentValue": "23.1℃",
+          "deliveryDate": "2026-06-06",
+          "planFinish": "2026-05-30 20:00",
+          "videoStatus": "在线",
+          "phase": "系统测试准备",
+          "modelState": "full"
+        },
+        {
+          "id": "S5",
+          "name": "S5 尾段待接",
+          "position": { "x": 146, "z": 16 },
+          "status": "不满足条件",
+          "batch": "20023",
+          "aircraftNo": "B-0044",
+          "customer": "厦航",
+          "section": "尾段",
+          "workstation": "305",
+          "completion": 73,
+          "aoTotal": 128,
+          "aoDone": 94,
+          "firOpen": 3,
+          "dasOpen": 2,
+          "people": "7 / 9",
+          "materials": "尾段未到位",
+          "tools": "5 / 7",
+          "environmentValue": "22.7℃",
+          "deliveryDate": "2026-06-10",
+          "planFinish": "2026-05-31 09:30",
+          "videoStatus": "离线",
+          "phase": "尾段待接",
+          "modelState": "tail"
+        },
+        {
+          "id": "S7",
+          "name": "S7 系统联调",
+          "position": { "x": 198, "z": 16 },
+          "status": "正常生产",
+          "batch": "20024",
+          "aircraftNo": "B-0045",
+          "customer": "川航",
+          "section": "系统联调",
+          "workstation": "309",
+          "completion": 86,
+          "aoTotal": 84,
+          "aoDone": 71,
+          "firOpen": 0,
+          "dasOpen": 1,
+          "people": "10 / 10",
+          "materials": "齐套",
+          "tools": "8 / 8",
+          "environmentValue": "22.5℃",
+          "deliveryDate": "2026-06-12",
+          "planFinish": "2026-05-31 18:30",
+          "videoStatus": "在线",
+          "phase": "系统联调",
+          "modelState": "full"
+        }
+      ]
+    }
+  ]
+}
