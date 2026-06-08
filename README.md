@@ -13,6 +13,7 @@
 ├── main_test.go             # 单元测试
 ├── README.md                # 项目说明
 ├── go-server.exe            # Windows 可执行文件，编译后生成
+├── go-server.pid            # 后台运行时生成的进程状态文件
 └── html_prototype/          # 示例静态项目
     ├── index.html
     ├── app.js
@@ -78,7 +79,7 @@ go run . -config config.json
 
 ### 使用 exe 运行
 
-编译后可以直接运行：
+编译后可以直接前台运行：
 
 ```powershell
 .\go-server.exe
@@ -89,6 +90,42 @@ go run . -config config.json
 ```powershell
 .\go-server.exe -config config.json
 ```
+
+### 使用 exe 管理服务
+
+`go-server.exe` 支持 `start`、`stop`、`restart`、`status` 四个管理命令，不需要额外的 bat 脚本。
+
+后台启动：
+
+```powershell
+.\go-server.exe start
+```
+
+关闭：
+
+```powershell
+.\go-server.exe stop
+```
+
+重启：
+
+```powershell
+.\go-server.exe restart
+```
+
+状态查询：
+
+```powershell
+.\go-server.exe status
+```
+
+指定配置文件启动：
+
+```powershell
+.\go-server.exe -config config.json start
+```
+
+后台运行时会生成 `go-server.pid`，用于记录进程号、端口和本地控制令牌。服务输出会写入 `server.out.log`，错误输出会写入 `server.err.log`。
 
 启动成功后，浏览器访问：
 

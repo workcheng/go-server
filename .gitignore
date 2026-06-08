@@ -1,2 +1,3 @@
 *.log
+go-server.pid
 go-server.exe

@@ -67,6 +67,22 @@ func TestLoadConfigValidatesProjectNames(t *testing.T) {
 	}
 }
 
+func TestServerMetaRoundTrip(t *testing.T) {
+	pidPath := filepath.Join(t.TempDir(), "go-server.pid")
+	want := serverMeta{PID: 1234, Port: 8080, Token: "token"}
+
+	if err := writeMeta(pidPath, want); err != nil {
+		t.Fatal(err)
+	}
+	got, err := readMeta(pidPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Fatalf("meta = %#v, want %#v", got, want)
+	}
+}
+
 func assertResponse(t *testing.T, handler http.Handler, path string, status int, body string) {
 	t.Helper()
 
