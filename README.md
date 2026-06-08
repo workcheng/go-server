@@ -8,6 +8,9 @@
 .
 ├── config.json              # 当前运行配置
 ├── config.example.json      # 配置示例
+├── app.rc                   # Windows 图标资源定义
+├── assets/app.ico           # Windows 可执行文件图标
+├── build.bat                # 编译带图标的 exe
 ├── go.mod                   # Go 模块定义
 ├── main.go                  # 服务入口和路由挂载逻辑
 ├── main_test.go             # 单元测试
@@ -152,10 +155,16 @@ http://localhost:8080/html_prototype/
 在项目根目录执行：
 
 ```powershell
-go build -o go-server.exe .
+.\build.bat
 ```
 
-编译产物 `go-server.exe` 会生成在项目根目录。
+编译脚本会先用 `windres` 根据 `assets/app.ico` 生成 Windows 资源文件 `app.syso`，再编译 `go-server.exe`。编译产物 `go-server.exe` 会生成在项目根目录。
+
+如果没有修改图标，也可以直接执行：
+
+```powershell
+go build -o go-server.exe .
+```
 
 ## 测试
 
