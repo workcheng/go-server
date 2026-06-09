@@ -83,6 +83,42 @@ func TestServerMetaRoundTrip(t *testing.T) {
 	}
 }
 
+func TestOpenURLUsesRootWhenNoProjectIsSelected(t *testing.T) {
+	got := openURL(Config{
+		Port:     8080,
+		Projects: []Project{{Name: "site"}},
+	})
+	if got != "http://localhost:8080/" {
+		t.Fatalf("openURL = %q, want %q", got, "http://localhost:8080/")
+	}
+}
+
+func TestOpenURLUsesSelectedProject(t *testing.T) {
+	got := openURL(Config{
+		Port: 8080,
+		Projects: []Project{
+			{Name: "first"},
+			{Name: "second", Open: 1},
+		},
+	})
+	if got != "http://localhost:8080/second/" {
+		t.Fatalf("openURL = %q, want %q", got, "http://localhost:8080/second/")
+	}
+}
+
+func TestOpenURLUsesFirstSelectedProject(t *testing.T) {
+	got := openURL(Config{
+		Port: 8080,
+		Projects: []Project{
+			{Name: "first", Open: 1},
+			{Name: "second", Open: 1},
+		},
+	})
+	if got != "http://localhost:8080/first/" {
+		t.Fatalf("openURL = %q, want %q", got, "http://localhost:8080/first/")
+	}
+}
+
 func assertResponse(t *testing.T, handler http.Handler, path string, status int, body string) {
 	t.Helper()
 

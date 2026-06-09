@@ -3,7 +3,8 @@
   "projects": [
     {
       "name": "project-a",
-      "path": "C:/path/to/project-a"
+      "path": "C:/path/to/project-a",
+      "open": 1
     },
     {
       "name": "project-b",

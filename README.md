@@ -35,7 +35,8 @@
   "projects": [
     {
       "name": "html_prototype",
-      "path": "html_prototype"
+      "path": "html_prototype",
+      "open": 1
     }
   ]
 }
@@ -47,6 +48,7 @@
 - `projects`：静态项目列表，至少需要配置一个项目。
 - `projects[].name`：项目访问路径名称，只能是单个 URL 路径片段，例如 `demo`。
 - `projects[].path`：项目文件夹路径，可以使用绝对路径，也可以使用相对配置文件所在目录的相对路径。
+- `projects[].open`：可选。设置为 `1` 时，服务启动后浏览器自动打开到该项目，例如 `/html_prototype/`。如果多个项目都设置为 `1`，取配置中的第一个；如果都没有设置，打开根路径 `/`。
 
 多个项目配置示例：
 
@@ -56,7 +58,8 @@
   "projects": [
     {
       "name": "project-a",
-      "path": "C:/path/to/project-a"
+      "path": "C:/path/to/project-a",
+      "open": 1
     },
     {
       "name": "project-b",

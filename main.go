@@ -30,6 +30,7 @@ type Config struct {
 type Project struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Open int    `json:"open"`
 }
 
 type mountedProject struct {
@@ -195,7 +196,7 @@ func runServer(cfg Config, pidPath string, writePID bool) error {
 		return err
 	}
 	if !writePID {
-		openBrowser(cfg.Port)
+		openBrowser(openURL(cfg))
 	}
 	if err := server.Serve(ln); err != nil {
 		return err
@@ -316,7 +317,7 @@ func startServer(cfg Config, configPath string, pidPath string) error {
 		meta, err := readMeta(pidPath)
 		if err == nil && meta.PID > 0 && meta.Port == cfg.Port && isRunning(meta) {
 			fmt.Printf("go-server.exe started. pid=%d port=%d\n", meta.PID, meta.Port)
-			openBrowser(meta.Port)
+			openBrowser(openURL(cfg))
 			return nil
 		}
 		time.Sleep(200 * time.Millisecond)
@@ -432,8 +433,18 @@ func newToken() (string, error) {
 	return hex.EncodeToString(data), nil
 }
 
-func openBrowser(port int) {
-	url := fmt.Sprintf("http://localhost:%d/", port)
+func openURL(cfg Config) string {
+	path := "/"
+	for _, project := range cfg.Projects {
+		if project.Open == 1 {
+			path = "/" + project.Name + "/"
+			break
+		}
+	}
+	return fmt.Sprintf("http://localhost:%d%s", cfg.Port, path)
+}
+
+func openBrowser(url string) {
 	cmd := exec.Command("rundll32", "url.dll,FileProtocolHandler", url)
 	if err := cmd.Start(); err != nil {
 		log.Printf("open browser failed: %v", err)

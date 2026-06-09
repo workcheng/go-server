@@ -3,7 +3,8 @@
   "projects": [
     {
       "name": "html_prototype",
-      "path": "html_prototype"
+      "path": "html_prototype",
+      "open": 1
     }
   ]
 }
