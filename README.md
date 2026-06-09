@@ -83,9 +83,9 @@ go run .
 go run . -config config.json
 ```
 
-### 使用 exe 运行
+### 使用可执行文件运行
 
-编译后可以直接前台运行：
+Windows 编译后可以直接前台运行：
 
 ```powershell
 .\go-server.exe
@@ -97,14 +97,32 @@ go run . -config config.json
 .\go-server.exe -config config.json
 ```
 
-### 使用 exe 管理服务
+Linux/macOS 编译后可以直接前台运行：
 
-`go-server.exe` 支持 `start`、`stop`、`restart`、`status` 四个管理命令，不需要额外的 bat 脚本。
+```bash
+./go-server
+```
+
+指定配置文件：
+
+```bash
+./go-server -config config.json
+```
+
+### 使用可执行文件管理服务
+
+可执行文件支持 `start`、`stop`、`restart`、`status` 四个管理命令，不需要额外的 bat 脚本。
 
 后台启动：
 
 ```powershell
 .\go-server.exe start
+```
+
+Linux/macOS：
+
+```bash
+./go-server start
 ```
 
 关闭：
@@ -113,10 +131,18 @@ go run . -config config.json
 .\go-server.exe stop
 ```
 
+```bash
+./go-server stop
+```
+
 重启：
 
 ```powershell
 .\go-server.exe restart
+```
+
+```bash
+./go-server restart
 ```
 
 状态查询：
@@ -125,10 +151,18 @@ go run . -config config.json
 .\go-server.exe status
 ```
 
+```bash
+./go-server status
+```
+
 查看帮助：
 
 ```powershell
 .\go-server.exe help
+```
+
+```bash
+./go-server help
 ```
 
 指定配置文件启动：
@@ -155,18 +189,24 @@ http://localhost:8080/html_prototype/
 
 ## 编译
 
-在项目根目录执行：
+Windows 下编译带图标的 exe：
 
 ```powershell
 .\build.bat
 ```
 
-编译脚本会先用 `windres` 根据 `assets/app.ico` 生成 Windows 资源文件 `app.syso`，再编译 `go-server.exe`。编译产物 `go-server.exe` 会生成在项目根目录。
+编译脚本会先用 `windres` 根据 `assets/app.ico` 生成 Windows 资源文件 `app_windows.syso`，再编译 `go-server.exe`。编译产物 `go-server.exe` 会生成在项目根目录。
 
 如果没有修改图标，也可以直接执行：
 
 ```powershell
 go build -o go-server.exe .
+```
+
+Linux/macOS：
+
+```bash
+go build -o go-server .
 ```
 
 ## 测试

@@ -18,7 +18,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -255,12 +254,7 @@ func loadConfig(configPath string) (Config, error) {
 	return cfg, nil
 }
 
-var errServerStopped = errors.New("go-server.exe is stopped")
-
-const (
-	windowsDetachedProcess       = 0x00000008
-	windowsCreateNewProcessGroup = 0x00000200
-)
+var errServerStopped = errors.New("go-server is stopped")
 
 func startServer(cfg Config, configPath string, pidPath string) error {
 	if meta, err := readMeta(pidPath); err == nil && isRunning(meta) {
@@ -301,10 +295,7 @@ func startServer(cfg Config, configPath string, pidPath string) error {
 	cmd.Stdout = out
 	cmd.Stderr = errOut
 	cmd.Dir = exeDir
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		CreationFlags: windowsDetachedProcess | windowsCreateNewProcessGroup,
-		HideWindow:    true,
-	}
+	configureBackgroundProcess(cmd)
 	if err := cmd.Start(); err != nil {
 		return err
 	}
@@ -445,7 +436,7 @@ func openURL(cfg Config) string {
 }
 
 func openBrowser(url string) {
-	cmd := exec.Command("rundll32", "url.dll,FileProtocolHandler", url)
+	cmd := browserCommand(url)
 	if err := cmd.Start(); err != nil {
 		log.Printf("open browser failed: %v", err)
 		return
