@@ -17,12 +17,11 @@
 ├── README.md                # 项目说明
 ├── go-server.exe            # Windows 可执行文件，编译后生成
 ├── go-server.pid            # 后台运行时生成的进程状态文件
-└── html_prototype/          # 示例静态项目
+└── example_site/            # 示例静态项目
     ├── index.html
     ├── app.js
     ├── styles.css
-    ├── data.json
-    └── assets/
+    └── data.json
 ```
 
 ## 配置说明
@@ -34,8 +33,8 @@
   "port": 8080,
   "projects": [
     {
-      "name": "html_prototype",
-      "path": "html_prototype",
+      "name": "example_site",
+      "path": "example_site",
       "open": 1
     }
   ]
@@ -48,7 +47,7 @@
 - `projects`：静态项目列表，至少需要配置一个项目。
 - `projects[].name`：项目访问路径名称，只能是单个 URL 路径片段，例如 `demo`。
 - `projects[].path`：项目文件夹路径，可以使用绝对路径，也可以使用相对配置文件所在目录的相对路径。
-- `projects[].open`：可选。设置为 `1` 时，服务启动后浏览器自动打开到该项目，例如 `/html_prototype/`。如果多个项目都设置为 `1`，取配置中的第一个；如果都没有设置，打开根路径 `/`。
+- `projects[].open`：可选。设置为 `1` 时，服务启动后浏览器自动打开到该项目，例如 `/example_site/`。如果多个项目都设置为 `1`，取配置中的第一个；如果都没有设置，打开根路径 `/`。
 
 多个项目配置示例：
 
@@ -182,7 +181,7 @@ http://localhost:8080/
 当前示例项目访问地址：
 
 ```text
-http://localhost:8080/html_prototype/
+http://localhost:8080/example_site/
 ```
 
 根路径 `/` 会显示所有已配置项目的链接列表。

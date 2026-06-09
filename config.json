@@ -2,8 +2,8 @@
   "port": 8080,
   "projects": [
     {
-      "name": "html_prototype",
-      "path": "html_prototype",
+      "name": "example_site",
+      "path": "example_site",
       "open": 1
     }
   ]

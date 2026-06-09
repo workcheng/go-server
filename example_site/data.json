@@ -1,0 +1,5 @@
+{
+  "name": "example_site",
+  "type": "static-project",
+  "files": ["index.html", "styles.css", "app.js", "data.json"]
+}

@@ -1,0 +1,62 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #202124;
+  background: #f6f8fb;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.hero {
+  padding: 32px 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #0b57d0;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.summary {
+  max-width: 560px;
+  color: #5f6368;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: #0b57d0;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 16px;
+}
+
+.panel {
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: white;
+  padding: 20px;
+}
+
+pre {
+  overflow: auto;
+  margin: 0;
+  color: #3c4043;
+}
