@@ -1,4 +1,5 @@
 *.log
+.gocache/
 go-server.pid
 go-server.exe
 dist/

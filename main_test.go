@@ -67,6 +67,31 @@ func TestLoadConfigValidatesProjectNames(t *testing.T) {
 	}
 }
 
+func TestLoadOrCreateConfigCreatesDefaultProject(t *testing.T) {
+	dir := t.TempDir()
+	configPath := filepath.Join(dir, "config.json")
+
+	cfg, err := loadOrCreateConfig(configPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.Port != 8080 {
+		t.Fatalf("port = %d, want 8080", cfg.Port)
+	}
+	if len(cfg.Projects) != 1 {
+		t.Fatalf("projects length = %d, want 1", len(cfg.Projects))
+	}
+	if cfg.Projects[0].Name != "example_site" || cfg.Projects[0].Open != 1 {
+		t.Fatalf("project = %#v, want example_site with open=1", cfg.Projects[0])
+	}
+
+	for _, name := range []string{"index.html", "styles.css", "app.js", "data.json"} {
+		if _, err := os.Stat(filepath.Join(dir, "example_site", name)); err != nil {
+			t.Fatalf("expected generated %s: %v", name, err)
+		}
+	}
+}
+
 func TestServerMetaRoundTrip(t *testing.T) {
 	pidPath := filepath.Join(t.TempDir(), "go-server.pid")
 	want := serverMeta{PID: 1234, Port: 8080, Token: "token"}

@@ -28,6 +28,8 @@
 
 默认配置文件是 `config.json`：
 
+如果启动时找不到配置文件，程序会自动在当前目录生成 `config.json` 和 `example_site/` 示例静态项目，然后继续启动服务。
+
 ```json
 {
   "port": 8080,

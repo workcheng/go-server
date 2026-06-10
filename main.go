@@ -68,7 +68,7 @@ func main() {
 			log.Fatal(err)
 		}
 	case "":
-		cfg, err := loadConfig(*configPath)
+		cfg, err := loadOrCreateConfig(*configPath)
 		if err != nil {
 			log.Fatalf("load config: %v", err)
 		}
@@ -82,7 +82,7 @@ func main() {
 			log.Fatal(err)
 		}
 	case "start":
-		cfg, err := loadConfig(*configPath)
+		cfg, err := loadOrCreateConfig(*configPath)
 		if err != nil {
 			log.Fatalf("load config: %v", err)
 		}
@@ -90,7 +90,7 @@ func main() {
 			log.Fatal(err)
 		}
 	case "restart":
-		cfg, err := loadConfig(*configPath)
+		cfg, err := loadOrCreateConfig(*configPath)
 		if err != nil {
 			log.Fatalf("load config: %v", err)
 		}
@@ -252,6 +252,63 @@ func loadConfig(configPath string) (Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func loadOrCreateConfig(configPath string) (Config, error) {
+	cfg, err := loadConfig(configPath)
+	if err == nil {
+		return cfg, nil
+	}
+	if !errors.Is(err, os.ErrNotExist) {
+		return Config{}, err
+	}
+
+	if err := createDefaultProject(configPath); err != nil {
+		return Config{}, err
+	}
+	fmt.Printf("config file was missing, created %s with example_site.\n", configPath)
+	return loadConfig(configPath)
+}
+
+func createDefaultProject(configPath string) error {
+	baseDir := filepath.Dir(configPath)
+	if baseDir == "" {
+		baseDir = "."
+	}
+
+	siteDir := filepath.Join(baseDir, "example_site")
+	if err := os.MkdirAll(siteDir, 0755); err != nil {
+		return err
+	}
+	files := map[string]string{
+		"index.html": defaultExampleIndex,
+		"styles.css": defaultExampleStyles,
+		"app.js":     defaultExampleScript,
+		"data.json":  defaultExampleData,
+	}
+	for name, content := range files {
+		path := filepath.Join(siteDir, name)
+		if _, err := os.Stat(path); err == nil {
+			continue
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return err
+		}
+		if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+			return err
+		}
+	}
+
+	data, err := json.MarshalIndent(Config{
+		Port: 8080,
+		Projects: []Project{
+			{Name: "example_site", Path: "example_site", Open: 1},
+		},
+	}, "", "  ")
+	if err != nil {
+		return err
+	}
+	data = append(data, '\n')
+	return os.WriteFile(configPath, data, 0644)
 }
 
 var errServerStopped = errors.New("go-server is stopped")
@@ -516,3 +573,111 @@ var indexTemplate = template.Must(template.New("index").Parse(`<!doctype html>
   </ul>
 </body>
 </html>`))
+
+const defaultExampleIndex = `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Go Server Example</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Static file server</p>
+      <h1>Go Server Example</h1>
+      <p class="summary">This page was created automatically because config.json was missing.</p>
+      <button id="load-data" type="button">Load project data</button>
+    </section>
+    <section class="panel">
+      <h2>Project data</h2>
+      <pre id="output">Click the button to fetch data.json.</pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
+`
+
+const defaultExampleStyles = `:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #202124;
+  background: #f6f8fb;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.hero {
+  padding: 32px 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #0b57d0;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.summary {
+  max-width: 560px;
+  color: #5f6368;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: #0b57d0;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 16px;
+}
+
+.panel {
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: white;
+  padding: 20px;
+}
+
+pre {
+  overflow: auto;
+  margin: 0;
+  color: #3c4043;
+}
+`
+
+const defaultExampleScript = `const output = document.querySelector("#output");
+const button = document.querySelector("#load-data");
+
+button.addEventListener("click", async () => {
+  output.textContent = "Loading...";
+  const response = await fetch("data.json");
+  const data = await response.json();
+  output.textContent = JSON.stringify(data, null, 2);
+});
+`
+
+const defaultExampleData = `{
+  "name": "example_site",
+  "type": "static-project",
+  "created": "automatic-default"
+}
+`
